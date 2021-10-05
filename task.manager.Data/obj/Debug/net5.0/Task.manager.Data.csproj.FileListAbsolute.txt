@@ -1,0 +1,15 @@
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\Task.manager.Data.deps.json
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\Task.manager.Data.runtimeconfig.json
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\Task.manager.Data.runtimeconfig.dev.json
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\Task.manager.Data.dll
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\ref\Task.manager.Data.dll
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\bin\Debug\net5.0\Task.manager.Data.pdb
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.csproj.AssemblyReference.cache
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.AssemblyInfoInputs.cache
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.AssemblyInfo.cs
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.csproj.CoreCompileInputs.cache
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.dll
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\ref\Task.manager.Data.dll
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.pdb
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\Task.manager.Data\obj\Debug\net5.0\Task.manager.Data.genruntimeconfig.cache

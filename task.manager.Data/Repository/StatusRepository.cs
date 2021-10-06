@@ -12,16 +12,16 @@ namespace Task.manager.Data.Repository
     class StatusRepository : IStatusRepository
     {
 
-        private readonly TaskManagerContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         private bool _disposed = false;
 
         public StatusRepository()
         {
-            _dbContext = new TaskManagerContext();
+            _dbContext = new DatabaseContext();
         }
 
-        public StatusRepository(TaskManagerContext context)
+        public StatusRepository(DatabaseContext context)
         {
             _dbContext = context;
         }

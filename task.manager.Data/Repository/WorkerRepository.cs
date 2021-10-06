@@ -12,16 +12,16 @@ namespace Task.manager.Data.Repository
     public class WorkerRepository : IWorkeRepository
     {
 
-        private readonly TaskManagerContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         private bool _disposed = false;
 
         public WorkerRepository()
         {
-            _dbContext = new TaskManagerContext();
+            _dbContext = new DatabaseContext();
         }
 
-        public WorkerRepository(TaskManagerContext context)
+        public WorkerRepository(DatabaseContext context)
         {
             _dbContext = context;
         }

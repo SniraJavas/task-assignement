@@ -11,16 +11,16 @@ namespace Task.manager.Data.Repository
 {
     public class TaskRepository : ITaskRepository
     {
-        private readonly TaskManagerContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         private bool _disposed = false;
 
         public TaskRepository()
         {
-            _dbContext = new TaskManagerContext();
+            _dbContext = new DatabaseContext();
         }
 
-        public TaskRepository(TaskManagerContext context)
+        public TaskRepository(DatabaseContext context)
         {
             _dbContext = context;
         }

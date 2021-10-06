@@ -27,9 +27,19 @@ namespace Task.manager.Data.Repository
 
         Manager IManagerRepository.createManager(Manager manager)
         {
-            _dbContext.Managers.Add(manager);
-            save();
-            return manager;
+            try
+            {
+                
+                _dbContext.Managers.Add(manager);
+                
+                save();
+                return manager;
+            }
+            catch (Exception ex) {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+
         }
 
         private void save()

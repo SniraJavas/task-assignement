@@ -29,7 +29,8 @@ namespace Task.manager.Data.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(settings.sqlConnectionString);
+
+                optionsBuilder.UseSqlServer("Server=.;Database=TaskManager;Trusted_Connection=True;");
             }
         }
 

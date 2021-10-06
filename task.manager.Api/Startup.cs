@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Task.manager.Data.Interfaces;
+using Task.manager.Data.Repository;
 
 namespace taskManager
 {
@@ -28,6 +30,7 @@ namespace taskManager
         {
 
             services.AddControllers();
+            services.AddScoped<IManagerRepository, ManagerRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task Manager", Version = "v1" });

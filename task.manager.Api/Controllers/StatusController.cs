@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Task.manager.Data.Models;
 
 namespace task.manager.api.Controllers
 {
@@ -12,36 +13,109 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        // GET: api/<StatusController>
+        private readonly DatabaseContext _context;
+
+        public StatusController(DatabaseContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/Status
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Task.manager.Data.Models.Status>>> GetStatuses()
         {
-            return new string[] { "value1", "value2" };
+            return await _context.Statuses.ToListAsync();
         }
 
-        // GET api/<StatusController>/5
+        // GET: api/Status/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Task.manager.Data.Models.Status>> GetStatus(int id)
         {
-            return "value";
+            var status = await _context.Statuses.FindAsync(id);
+
+            if (status == null)
+            {
+                return NotFound();
+            }
+
+            return status;
         }
 
-        // POST api/<StatusController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<StatusController>/5
+        // PUT: api/Status/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutStatus(int id, Task.manager.Data.Models.Status status)
         {
+            if (id != status.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(status).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StatusExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // DELETE api/<StatusController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // POST: api/Status
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Task.manager.Data.Models.Status>> PostStatus(Task.manager.Data.Models.Status status)
         {
+            _context.Statuses.Add(status);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (StatusExists(status.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtAction("GetStatus", new { id = status.Id }, status);
+        }
+
+        // DELETE: api/Status/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStatus(int id)
+        {
+            var status = await _context.Statuses.FindAsync(id);
+            if (status == null)
+            {
+                return NotFound();
+            }
+
+            _context.Statuses.Remove(status);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool StatusExists(int id)
+        {
+            return _context.Statuses.Any(e => e.Id == id);
         }
     }
 }

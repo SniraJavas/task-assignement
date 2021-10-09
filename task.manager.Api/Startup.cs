@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Task.manager.Data.Interfaces;
 using Task.manager.Data.Repository;
+using Task.Project.Data.Interfaces;
 
 namespace taskManager
 {
@@ -30,7 +32,10 @@ namespace taskManager
         {
 
             services.AddControllers();
+			services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IManagerRepository, ManagerRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task Manager", Version = "v1" });

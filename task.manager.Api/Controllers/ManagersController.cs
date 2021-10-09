@@ -14,11 +14,9 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class ManagersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
         private readonly IManagerRepository _managerRepository;
-        public ManagersController(DatabaseContext context , IManagerRepository managerRepository )
+        public ManagersController(IManagerRepository managerRepository )
         {
-            _context = context;
             _managerRepository = managerRepository;
         }
 
@@ -26,14 +24,14 @@ namespace task.manager.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manager>>> GetManagers()
         {
-            return await _context.Managers.ToListAsync();
+            return await _managerRepository.getManagers();
         }
 
         // GET: api/Managers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Manager>> GetManager(int id)
         {
-            var manager = await _context.Managers.FindAsync(id);
+            var manager = await _managerRepository.getManagerById(id);
 
             if (manager == null)
             {
@@ -53,15 +51,14 @@ namespace task.manager.api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(manager).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _managerRepository.updateManager(manager);
+                return Ok(manager);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ManagerExists(id))
+                if (!_managerRepository.Exist(manager.Id))
                 {
                     return NotFound();
                 }
@@ -79,14 +76,14 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Manager>> PostManager(Manager manager)
         {
-            _context.Managers.Add(manager);
+           
             try
             {
-                await _context.SaveChangesAsync();
+                await _managerRepository.createManager(manager);
             }
             catch (DbUpdateException)
             {
-                if (ManagerExists(manager.Id))
+                if (_managerRepository.Exist(manager.Id))
                 {
                     return Conflict();
                 }
@@ -103,21 +100,13 @@ namespace task.manager.api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteManager(int id)
         {
-            var manager = await _context.Managers.FindAsync(id);
+            var manager = await _managerRepository.deleteManager(id);
             if (manager == null)
             {
                 return NotFound();
             }
 
-            _context.Managers.Remove(manager);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ManagerExists(int id)
-        {
-            return _context.Managers.Any(e => e.Id == id);
+            return Ok(manager);
         }
     }
 }

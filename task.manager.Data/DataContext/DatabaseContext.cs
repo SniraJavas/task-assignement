@@ -79,17 +79,17 @@ namespace Task.manager.Data.Models
 
                 entity.Property(e => e.WorkerId).HasColumnName("Worker_Id");
 
-                entity.HasOne(d => d.Manager)
-                    .WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.ManagerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Project_Manager");
+                //entity.HasOne(d => d.Manager)
+                //    .WithMany(p => p.Projects)
+                //    .HasForeignKey(d => d.ManagerId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Project_Manager");
 
-                entity.HasOne(d => d.Worker)
-                    .WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.WorkerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Project_Worker");
+                //entity.HasOne(d => d.Worker)
+                //    .WithMany(p => p.Projects)
+                //    .HasForeignKey(d => d.WorkerId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Project_Worker");
             });
 
             modelBuilder.Entity<Status>(entity =>
@@ -127,11 +127,11 @@ namespace Task.manager.Data.Models
 
                 entity.Property(e => e.StatusId).HasColumnName("Status_Id");
 
-                entity.HasOne(d => d.Manager)
-                    .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.ManagerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Task_Manager");
+                //entity.HasOne(d => d.Manager)
+                //    .WithMany(p => p.Tasks)
+                //    .HasForeignKey(d => d.ManagerId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Task_Manager");
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.Tasks)
@@ -139,11 +139,11 @@ namespace Task.manager.Data.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Task_Member");
 
-                entity.HasOne(d => d.Project)
-                    .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.ProjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Task_Project");
+                //entity.HasOne(d => d.Project)
+                //    .WithMany(p => p.Tasks)
+                //    .HasForeignKey(d => d.ProjectId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Task_Project");
 
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Tasks)

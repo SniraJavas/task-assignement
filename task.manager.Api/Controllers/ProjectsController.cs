@@ -6,32 +6,33 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Task.manager.Data.Models;
+using Task.Project.Data.Interfaces;
 
-namespace task.manager.api.Controllers
+namespace task.project.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IProjectRepository _projectRepository;
 
-        public ProjectsController(DatabaseContext context)
+        public ProjectsController(IProjectRepository context)
         {
-            _context = context;
+            _projectRepository = context;
         }
 
         // GET: api/Projects
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            return await _projectRepository.getProjects();
         }
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _projectRepository.getProjectrById(id);
 
             if (project == null)
             {
@@ -51,15 +52,14 @@ namespace task.manager.api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(project).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _projectRepository.updateProject(project);
+                return Ok(project);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProjectExists(id))
+                if (!_projectRepository.Exist(project.Id))
                 {
                     return NotFound();
                 }
@@ -70,6 +70,7 @@ namespace task.manager.api.Controllers
             }
 
             return NoContent();
+
         }
 
         // POST: api/Projects
@@ -77,14 +78,14 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
-            _context.Projects.Add(project);
             try
             {
-                await _context.SaveChangesAsync();
+              
+                await _projectRepository.createProject(project);
             }
             catch (DbUpdateException)
             {
-                if (ProjectExists(project.Id))
+                if (_projectRepository.Exist(project.Id))
                 {
                     return Conflict();
                 }
@@ -101,21 +102,15 @@ namespace task.manager.api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _projectRepository.deleteProject(id);
             if (project == null)
             {
                 return NotFound();
             }
 
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(project);
         }
 
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
-        }
+      
     }
 }

@@ -4,7 +4,7 @@
 -- tables
 -- Table: Manager
 CREATE TABLE Manager (
-    Id int  NOT NULL,
+    Id int  NOT NULL ,
     Name varchar(20)  NOT NULL,
     Surname varchar(20)  NOT NULL,
     Email varchar(20)  NOT NULL,

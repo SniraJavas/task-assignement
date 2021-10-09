@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,42 +26,11 @@ namespace Task.manager.Data.Repository
             _dbContext = context;
         }
 
-        void IProjectRepository.createProject(Models.Project project)
-        {
-            _dbContext.Projects.Add(project);
-            save();
-        }
-
-        private void save()
+       
+        
+        void save()
         {
             _dbContext.SaveChanges();
-        }
-
-
-        void IProjectRepository.deleteProject(int id)
-        {
-            var manager = _dbContext.Managers.Find(id);
-            if (manager != null) _dbContext.Managers.Remove(manager);
-        }
-
-        Models.Project IProjectRepository.getProjectrById(int id)
-        {
-            return _dbContext.Projects.Find(id);
-        }
-
-        IEnumerable<Models.Project> IProjectRepository.getProjects()
-        {
-            return _dbContext.Projects.ToList();
-        }
-
-        void IProjectRepository.save()
-        {
-            _dbContext.SaveChanges();
-        }
-
-        void IProjectRepository.updateProject(Models.Project project)
-        {
-            _dbContext.Entry(project).State = EntityState.Modified;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -78,6 +48,93 @@ namespace Task.manager.Data.Repository
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        async Task<ActionResult<IEnumerable<Models.Project>>> IProjectRepository.getProjects()
+        {
+            return await _dbContext.Projects.ToListAsync();
+        }
+
+        async Task<ActionResult<Models.Project>> IProjectRepository.getProjectrById(int id)
+        {
+
+            var manager = await _dbContext.Projects.FindAsync(id);
+            if (manager != null)
+            {
+                if (manager.Active == true)
+                {
+                    return manager;
+                }
+            }
+            return null;
+        }
+
+        async Task<ActionResult<Models.Project>> IProjectRepository.createProject(Models.Project project)
+        {
+            try
+            {
+                await _dbContext.Projects.AddAsync(project);
+
+                save();
+                return project;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+
+        }
+
+        async Task<ActionResult<Models.Project>> IProjectRepository.updateProject(Models.Project project)
+        {
+            try
+            {
+                _dbContext.Entry(project).State = EntityState.Modified;
+                save();
+                if (project != null)
+                {
+                    if (project.Active == true)
+                    {
+                        return project;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+        }
+
+        async Task<ActionResult<Models.Project>> IProjectRepository.deleteProject(int id)
+        {
+            var project = await _dbContext.Projects.FindAsync(id);
+            if (project != null)
+            {
+                if (project.Active == true)
+                {
+                    project.Active = false;
+                    //_dbContext.Projects.Remove(manager);
+                    _dbContext.Entry(project).State = EntityState.Modified;
+                    save();
+                    return project;
+                }
+            }
+
+            return null;
+        }
+
+        void IProjectRepository.save()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        bool IProjectRepository.Exist(int id)
+        {
+            return _dbContext.Managers.Any(e => e.Id == id);
         }
     }
 }

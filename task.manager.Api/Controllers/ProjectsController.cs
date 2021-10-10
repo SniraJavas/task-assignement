@@ -82,7 +82,15 @@ namespace task.project.api.Controllers
             {
                 
                 var manager = GetProject(project.ManagerId);
-                await _projectRepository.createProject(project);
+                if (manager != null)
+                {
+                    await _projectRepository.createProject(project);
+                    return Ok(project);
+                }
+                else {
+                    return BadRequest("The selected Manager does not exist");
+                }
+                
             }
             catch (DbUpdateException)
             {

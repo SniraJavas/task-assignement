@@ -12,3 +12,4 @@ C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\task.manager.Data\obj\
 C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\task.manager.Data\obj\Debug\net5.0\ref\task.manager.data.dll
 C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\task.manager.Data\obj\Debug\net5.0\task.manager.data.pdb
 C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\task.manager.Data\obj\Debug\net5.0\task.manager.data.genruntimeconfig.cache
+C:\Users\sinikiwe.jumba\Downloads\WeBelieveIT\TaskManager\task.manager.Data\obj\Debug\net5.0\task.manager.data.csproj.AssemblyReference.cache

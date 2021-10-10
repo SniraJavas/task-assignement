@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Status.manager.Data.Interfaces;
 
 namespace task.manager.api.Controllers
 {
@@ -12,32 +13,32 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        private readonly data.Models.DatabaseContext _context;
+        private readonly IStatusRepository _statusRepository;
 
-        public StatusController(data.Models.DatabaseContext context)
+        public StatusController(IStatusRepository statusRepository)
         {
-            _context = context;
+            _statusRepository = statusRepository;
         }
 
         // GET: api/Status
         [HttpGet]
         public async Task<ActionResult<IEnumerable<task.manager.data.Models.Status>>> GetStatuses()
         {
-            return await _context.Statuses.ToListAsync();
+            return await _statusRepository.getStatuses();
         }
 
         // GET: api/Status/5
         [HttpGet("{id}")]
         public async Task<ActionResult<task.manager.data.Models.Status>> GetStatus(int id)
         {
-            var status = await _context.Statuses.FindAsync(id);
+            var status = await _statusRepository.GetStatusById(id);
 
-            if (status == null)
+            if (status.Value == null)
             {
                 return NotFound();
             }
 
-            return status;
+            return Ok(status);
         }
 
         // PUT: api/Status/5
@@ -50,15 +51,14 @@ namespace task.manager.api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(status).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _statusRepository.updateStatus(status);
+                return Ok(status);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StatusExists(id))
+                if (!_statusRepository.Exist(status.Id))
                 {
                     return NotFound();
                 }
@@ -67,8 +67,6 @@ namespace task.manager.api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Status
@@ -76,14 +74,14 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<task.manager.data.Models.Status>> PostStatus(task.manager.data.Models.Status status)
         {
-            _context.Statuses.Add(status);
+      
             try
             {
-                await _context.SaveChangesAsync();
+                return await _statusRepository.createStatus(status);
             }
             catch (DbUpdateException)
             {
-                if (StatusExists(status.Id))
+                if (_statusRepository.Exist(status.Id))
                 {
                     return Conflict();
                 }
@@ -92,29 +90,19 @@ namespace task.manager.api.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtAction("GetStatus", new { id = status.Id }, status);
         }
 
         // DELETE: api/Status/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStatus(int id)
         {
-            var status = await _context.Statuses.FindAsync(id);
+            var status = await _statusRepository.deleteStatus(id);
             if (status == null)
             {
                 return NotFound();
             }
 
-            _context.Statuses.Remove(status);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool StatusExists(int id)
-        {
-            return _context.Statuses.Any(e => e.Id == id);
+            return Ok(status);
         }
     }
 }

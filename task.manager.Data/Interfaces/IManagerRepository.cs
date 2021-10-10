@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 
 
 namespace Task.manager.Data.Interfaces

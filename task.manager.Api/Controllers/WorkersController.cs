@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 
 namespace task.manager.api.Controllers
 {

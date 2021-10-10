@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using task.manager.data.Models;
 using Task.manager.Data.Interfaces;
-using Task.manager.Data.Models;
 
 namespace Task.manager.Data.Repository
 {
@@ -25,7 +25,7 @@ namespace Task.manager.Data.Repository
             _dbContext = context;
         }
 
-        void ITaskRepository.createTask(Models.Task task)
+        void ITaskRepository.createTask(task.manager.data.Models.Task task)
         {
             _dbContext.Tasks.Add(task);
             save();
@@ -42,12 +42,12 @@ namespace Task.manager.Data.Repository
             if (task != null) _dbContext.Tasks.Remove(task);
         }
 
-        Models.Task ITaskRepository.GetTaskById(int id)
+        task.manager.data.Models.Task ITaskRepository.GetTaskById(int id)
         {
             return _dbContext.Tasks.Find(id);
         }
 
-        IEnumerable<Models.Task> ITaskRepository.getTasks()
+        IEnumerable<task.manager.data.Models.Task> ITaskRepository.getTasks()
         {
             return _dbContext.Tasks.ToList();
         }
@@ -57,7 +57,7 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void ITaskRepository.updateTask(Models.Task task)
+        void ITaskRepository.updateTask(task.manager.data.Models.Task task)
         {
             _dbContext.Entry(task).State = EntityState.Modified;
         }

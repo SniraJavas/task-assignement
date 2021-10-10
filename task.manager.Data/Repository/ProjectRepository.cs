@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 using Task.Project.Data.Interfaces;
 
 namespace Task.manager.Data.Repository
@@ -26,8 +26,8 @@ namespace Task.manager.Data.Repository
             _dbContext = context;
         }
 
-       
-        
+
+
         void save()
         {
             _dbContext.SaveChanges();
@@ -50,12 +50,12 @@ namespace Task.manager.Data.Repository
             GC.SuppressFinalize(this);
         }
 
-        async Task<ActionResult<IEnumerable<Models.Project>>> IProjectRepository.getProjects()
+        async Task<ActionResult<IEnumerable<task.manager.data.Models.Project>>> IProjectRepository.getProjects()
         {
             return await _dbContext.Projects.ToListAsync();
         }
 
-        async Task<ActionResult<Models.Project>> IProjectRepository.getProjectrById(int id)
+        async Task<ActionResult<task.manager.data.Models.Project>> IProjectRepository.getProjectrById(int id)
         {
 
             var manager = await _dbContext.Projects.FindAsync(id);
@@ -69,10 +69,11 @@ namespace Task.manager.Data.Repository
             return null;
         }
 
-        async Task<ActionResult<Models.Project>> IProjectRepository.createProject(Models.Project project)
+        async Task<ActionResult<task.manager.data.Models.Project>> IProjectRepository.createProject(task.manager.data.Models.Project project)
         {
             try
             {
+
                 await _dbContext.Projects.AddAsync(project);
 
                 save();
@@ -86,7 +87,7 @@ namespace Task.manager.Data.Repository
 
         }
 
-        async Task<ActionResult<Models.Project>> IProjectRepository.updateProject(Models.Project project)
+        async Task<ActionResult<task.manager.data.Models.Project>> IProjectRepository.updateProject(task.manager.data.Models.Project project)
         {
             try
             {
@@ -108,7 +109,7 @@ namespace Task.manager.Data.Repository
             }
         }
 
-        async Task<ActionResult<Models.Project>> IProjectRepository.deleteProject(int id)
+        async Task<ActionResult<task.manager.data.Models.Project>> IProjectRepository.deleteProject(int id)
         {
             var project = await _dbContext.Projects.FindAsync(id);
             if (project != null)

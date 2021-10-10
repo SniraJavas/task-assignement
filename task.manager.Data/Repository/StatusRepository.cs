@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 
 namespace Task.manager.Data.Repository
 {
@@ -25,7 +25,7 @@ namespace Task.manager.Data.Repository
         {
             _dbContext = context;
         }
-        void IStatusRepository.createStatus(Models.Status status)
+        void IStatusRepository.createStatus(task.manager.data.Models.Status status)
         {
             _dbContext.Statuses.Add(status);
             save();
@@ -43,12 +43,12 @@ namespace Task.manager.Data.Repository
             if (manager != null) _dbContext.Managers.Remove(manager);
         }
 
-        Models.Status IStatusRepository.GetStatusById(int id)
+        task.manager.data.Models.Status IStatusRepository.GetStatusById(int id)
         {
             return _dbContext.Statuses.Find(id);
         }
 
-        IEnumerable<Models.Status> IStatusRepository.getStatuses()
+        IEnumerable<task.manager.data.Models.Status> IStatusRepository.getStatuses()
         {
             return _dbContext.Statuses.ToList();
         }
@@ -58,7 +58,7 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void IStatusRepository.updateStatus(Models.Status status)
+        void IStatusRepository.updateStatus(task.manager.data.Models.Status status)
         {
             _dbContext.Entry(status).State = EntityState.Modified;
         }

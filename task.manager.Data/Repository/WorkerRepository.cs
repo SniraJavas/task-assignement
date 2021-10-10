@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using task.manager.data.Models;
 using Task.manager.Data.Interfaces;
-using Task.manager.Data.Models;
 
 namespace Task.manager.Data.Repository
 {

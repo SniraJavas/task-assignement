@@ -9,10 +9,10 @@ namespace Status.manager.Data.Interfaces
     public interface IStatusRepository
     {
 
-        IEnumerable<Task.manager.Data.Models.Status> getStatuses();
-        Task.manager.Data.Models.Status GetStatusById(int id);
-        void createStatus(Task.manager.Data.Models.Status status);
-        void updateStatus(Task.manager.Data.Models.Status status);
+        IEnumerable<task.manager.data.Models.Status> getStatuses();
+        task.manager.data.Models.Status GetStatusById(int id);
+        void createStatus(task.manager.data.Models.Status status);
+        void updateStatus(task.manager.data.Models.Status status);
         void deleteStatus(int id);
         void save();
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 using Task.Project.Data.Interfaces;
 
 namespace task.project.api.Controllers
@@ -80,7 +80,8 @@ namespace task.project.api.Controllers
         {
             try
             {
-              
+                
+                var manager = GetProject(project.ManagerId);
                 await _projectRepository.createProject(project);
             }
             catch (DbUpdateException)
@@ -111,6 +112,6 @@ namespace task.project.api.Controllers
             return Ok(project);
         }
 
-      
+
     }
 }

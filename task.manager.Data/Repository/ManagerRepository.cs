@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using task.manager.data.Models;
 using Task.manager.Data.Interfaces;
-using Task.manager.Data.Models;
 
 namespace Task.manager.Data.Repository
 {
@@ -31,11 +31,12 @@ namespace Task.manager.Data.Repository
             try
             {
                 await _dbContext.Managers.AddAsync(manager);
-                
+
                 save();
                 return manager;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine("error : {0} ", ex.Message);
                 return null;
             }
@@ -50,7 +51,8 @@ namespace Task.manager.Data.Repository
         async Task<ActionResult<Manager>> IManagerRepository.deleteManager(int id)
         {
             var manager = await _dbContext.Managers.FindAsync(id);
-            if (manager != null) {
+            if (manager != null)
+            {
                 if (manager.Active == true)
                 {
                     manager.Active = false;
@@ -68,22 +70,25 @@ namespace Task.manager.Data.Repository
         async Task<ActionResult<Manager>> IManagerRepository.getManagerById(int id)
         {
             var manager = await _dbContext.Managers.FindAsync(id);
-            if (manager != null) {
-                if (manager.Active == true) {
+            if (manager != null)
+            {
+                if (manager.Active == true)
+                {
                     return manager;
                 }
             }
             return null;
         }
 
-       void IManagerRepository.save()
+        void IManagerRepository.save()
         {
             _dbContext.SaveChanges();
         }
 
         async Task<ActionResult<Manager>> IManagerRepository.updateManager(Manager manager)
         {
-            try {
+            try
+            {
                 _dbContext.Entry(manager).State = EntityState.Modified;
                 save();
                 if (manager != null)
@@ -95,14 +100,15 @@ namespace Task.manager.Data.Repository
                 }
                 return null;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine("error : {0} ", ex.Message);
                 return null;
             }
 
         }
-         
-        
+
+
 
         //protected virtual void Dispose(bool disposing)
         //{

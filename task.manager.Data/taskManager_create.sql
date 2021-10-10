@@ -1,5 +1,3 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2021-09-20 20:57:03.643
 
 -- tables
 -- Table: Manager
@@ -20,7 +18,6 @@ CREATE TABLE Project (
     Duration decimal(7,4)  NOT NULL,
     Remaining decimal(7,4)  NOT NULL,
     Manager_Id int  NOT NULL,
-    Worker_Id int  NOT NULL,
     CONSTRAINT Project_pk PRIMARY KEY  (Id)
 );
 
@@ -35,13 +32,13 @@ CREATE TABLE Status (
 CREATE TABLE Task (
     Id int  NOT NULL,
     Name varchar(20)  NOT NULL,
-    Estimation decimal(3,2)  NOT NULL,
+    Estimation decimal(3,2) NULL,
     Active bit  NOT NULL,
-    Remaining decimal(3,2)  NOT NULL,
+    Remaining decimal(3,2) NULL,
     Manager_Id int  NOT NULL,
     Status_Id int  NOT NULL,
     Project_Id int  NOT NULL,
-    Member_Id int  NOT NULL,
+    Member_Id int  NULL,
     CONSTRAINT Task_pk PRIMARY KEY  (Id)
 );
 
@@ -61,10 +58,6 @@ ALTER TABLE Project ADD CONSTRAINT Project_Manager
     FOREIGN KEY (Manager_Id)
     REFERENCES Manager (Id);
 
--- Reference: Project_Worker (table: Project)
-ALTER TABLE Project ADD CONSTRAINT Project_Worker
-    FOREIGN KEY (Worker_Id)
-    REFERENCES Worker (Id);
 
 -- Reference: Task_Manager (table: Task)
 ALTER TABLE Task ADD CONSTRAINT Task_Manager

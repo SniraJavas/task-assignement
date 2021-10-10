@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Task.manager.Data.Models;
 
 namespace task.manager.api.Controllers
 {
@@ -13,23 +12,23 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly data.Models.DatabaseContext _context;
 
-        public StatusController(DatabaseContext context)
+        public StatusController(data.Models.DatabaseContext context)
         {
             _context = context;
         }
 
         // GET: api/Status
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Task.manager.Data.Models.Status>>> GetStatuses()
+        public async Task<ActionResult<IEnumerable<task.manager.data.Models.Status>>> GetStatuses()
         {
             return await _context.Statuses.ToListAsync();
         }
 
         // GET: api/Status/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Task.manager.Data.Models.Status>> GetStatus(int id)
+        public async Task<ActionResult<task.manager.data.Models.Status>> GetStatus(int id)
         {
             var status = await _context.Statuses.FindAsync(id);
 
@@ -44,7 +43,7 @@ namespace task.manager.api.Controllers
         // PUT: api/Status/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStatus(int id, Task.manager.Data.Models.Status status)
+        public async Task<IActionResult> PutStatus(int id, task.manager.data.Models.Status status)
         {
             if (id != status.Id)
             {
@@ -75,7 +74,7 @@ namespace task.manager.api.Controllers
         // POST: api/Status
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Task.manager.Data.Models.Status>> PostStatus(Task.manager.Data.Models.Status status)
+        public async Task<ActionResult<task.manager.data.Models.Status>> PostStatus(task.manager.data.Models.Status status)
         {
             _context.Statuses.Add(status);
             try

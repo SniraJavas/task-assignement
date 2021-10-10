@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Task.manager.Data.Models;
 
 namespace task.manager.api.Controllers
 {
@@ -13,23 +12,23 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly data.Models.DatabaseContext _context;
 
-        public TasksController(DatabaseContext context)
+        public TasksController(data.Models.DatabaseContext context)
         {
             _context = context;
         }
 
         // GET: api/Tasks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Task.manager.Data.Models.Task>>> GetTasks()
+        public async Task<ActionResult<IEnumerable<task.manager.data.Models.Task>>> GetTasks()
         {
             return await _context.Tasks.ToListAsync();
         }
 
         // GET: api/Tasks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Task.manager.Data.Models.Task>> GetTask(int id)
+        public async Task<ActionResult<task.manager.data.Models.Task>> GetTask(int id)
         {
             var task = await _context.Tasks.FindAsync(id);
 
@@ -44,7 +43,7 @@ namespace task.manager.api.Controllers
         // PUT: api/Tasks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask(int id, Task.manager.Data.Models.Task task)
+        public async Task<IActionResult> PutTask(int id, task.manager.data.Models.Task task)
         {
             if (id != task.Id)
             {
@@ -75,7 +74,7 @@ namespace task.manager.api.Controllers
         // POST: api/Tasks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Task.manager.Data.Models.Task>> PostTask(Task.manager.Data.Models.Task task)
+        public async Task<ActionResult<task.manager.data.Models.Task>> PostTask(task.manager.data.Models.Task task)
         {
             _context.Tasks.Add(task);
             try

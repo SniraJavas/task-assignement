@@ -1,15 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using task.manager.data.DataContext;
 
 #nullable disable
 
-namespace Task.manager.Data.Models
+namespace task.manager.data.Models
 {
     public partial class DatabaseContext : DbContext
     {
-        public AppConfiguration settings { set; get; }
         public DatabaseContext()
         {
         }
@@ -29,8 +27,8 @@ namespace Task.manager.Data.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
-                optionsBuilder.UseSqlServer("Server=.;Database=TaskManager;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=.;Database=Task_Manager-Dev;Trusted_Connection=True;");
             }
         }
 
@@ -77,19 +75,11 @@ namespace Task.manager.Data.Models
 
                 entity.Property(e => e.Remaining).HasColumnType("decimal(7, 4)");
 
-                entity.Property(e => e.WorkerId).HasColumnName("Worker_Id");
-
                 //entity.HasOne(d => d.Manager)
                 //    .WithMany(p => p.Projects)
                 //    .HasForeignKey(d => d.ManagerId)
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("Project_Manager");
-
-                //entity.HasOne(d => d.Worker)
-                //    .WithMany(p => p.Projects)
-                //    .HasForeignKey(d => d.WorkerId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("Project_Worker");
             });
 
             modelBuilder.Entity<Status>(entity =>
@@ -133,11 +123,10 @@ namespace Task.manager.Data.Models
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("Task_Manager");
 
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Task_Member");
+                //entity.HasOne(d => d.Member)
+                //    .WithMany(p => p.Tasks)
+                //    .HasForeignKey(d => d.MemberId)
+                //    .HasConstraintName("Task_Member");
 
                 //entity.HasOne(d => d.Project)
                 //    .WithMany(p => p.Tasks)
@@ -145,11 +134,11 @@ namespace Task.manager.Data.Models
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("Task_Project");
 
-                entity.HasOne(d => d.Status)
-                    .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.StatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Task_Status");
+                //entity.HasOne(d => d.Status)
+                //    .WithMany(p => p.Tasks)
+                //    .HasForeignKey(d => d.StatusId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Task_Status");
             });
 
             modelBuilder.Entity<Worker>(entity =>

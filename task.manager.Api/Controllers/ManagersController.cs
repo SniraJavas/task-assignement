@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using task.manager.data.Models;
 using Task.manager.Data.Interfaces;
-using Task.manager.Data.Models;
 
 namespace task.manager.api.Controllers
 {
@@ -15,7 +15,7 @@ namespace task.manager.api.Controllers
     public class ManagersController : ControllerBase
     {
         private readonly IManagerRepository _managerRepository;
-        public ManagersController(IManagerRepository managerRepository )
+        public ManagersController(IManagerRepository managerRepository)
         {
             _managerRepository = managerRepository;
         }
@@ -76,7 +76,7 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Manager>> PostManager(Manager manager)
         {
-           
+
             try
             {
                 await _managerRepository.createManager(manager);

@@ -25,7 +25,6 @@ namespace taskManager
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-             BuildAppSettingsProvider();
         }
 
         public IConfiguration Configuration { get; }
@@ -69,11 +68,6 @@ namespace taskManager
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private void BuildAppSettingsProvider()
-        {
-            AppSettings.ConnectionString = Configuration["ConnectionString"];
         }
 
     }

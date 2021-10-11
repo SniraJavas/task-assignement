@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task.manager.data.Models;
+using Task.manager.Data.Interfaces;
 
 namespace task.manager.api.Controllers
 {
@@ -13,25 +14,25 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class WorkersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IWorkerRepository _workeRepository;
 
-        public WorkersController(DatabaseContext context)
+        public WorkersController(IWorkerRepository workeRepository)
         {
-            _context = context;
+            _workeRepository = workeRepository;
         }
 
         // GET: api/Workers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Worker>>> GetWorkers()
         {
-            return await _context.Workers.ToListAsync();
+            return await _workeRepository.getWorkers();
         }
 
         // GET: api/Workers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Worker>> GetWorker(int id)
         {
-            var worker = await _context.Workers.FindAsync(id);
+            var worker = await _workeRepository.GetWorkerById(id);
 
             if (worker == null)
             {
@@ -51,15 +52,18 @@ namespace task.manager.api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(worker).State = EntityState.Modified;
+           
 
             try
             {
-                await _context.SaveChangesAsync();
+                var response = await _workeRepository.updateWorker(worker);
+                if (response != null) {
+                    return Ok(response);
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkerExists(id))
+                if (!_workeRepository.Exist(id))
                 {
                     return NotFound();
                 }
@@ -77,14 +81,14 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Worker>> PostWorker(Worker worker)
         {
-            _context.Workers.Add(worker);
+           
             try
             {
-                await _context.SaveChangesAsync();
+                await _workeRepository.createWorker(worker);
             }
             catch (DbUpdateException)
             {
-                if (WorkerExists(worker.Id))
+                if (_workeRepository.Exist(worker.Id))
                 {
                     return Conflict();
                 }
@@ -101,21 +105,14 @@ namespace task.manager.api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorker(int id)
         {
-            var worker = await _context.Workers.FindAsync(id);
+            var worker = await _workeRepository.deleteWorker(id);
             if (worker == null)
             {
                 return NotFound();
             }
 
-            _context.Workers.Remove(worker);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(worker);
         }
 
-        private bool WorkerExists(int id)
-        {
-            return _context.Workers.Any(e => e.Id == id);
-        }
     }
 }

@@ -67,8 +67,6 @@ namespace task.manager.api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Managers
@@ -79,6 +77,7 @@ namespace task.manager.api.Controllers
 
             try
             {
+
                 await _managerRepository.createManager(manager);
             }
             catch (DbUpdateException)

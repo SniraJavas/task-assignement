@@ -129,7 +129,7 @@ namespace Task.manager.Data.Repository
 
         async Task<ActionResult<IEnumerable<Manager>>> IManagerRepository.getManagers()
         {
-            return await _dbContext.Managers.ToListAsync();
+            return _dbContext.Managers.ToListAsync().Result.Where(x => x.Active == true).ToList(); ;
         }
 
         bool IManagerRepository.Exist(int id)

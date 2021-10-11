@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,11 @@ namespace Task.manager.Data.Repository
             _dbContext = context;
         }
 
-        void ITaskRepository.createTask(task.manager.data.Models.Task task)
+        async Task<ActionResult<task.manager.data.Models.Task>> ITaskRepository.createTask(task.manager.data.Models.Task task)
         {
-            _dbContext.Tasks.Add(task);
+            await _dbContext.Tasks.AddAsync(task);
             save();
+            return task;
         }
 
         private void save()
@@ -36,20 +38,40 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void ITaskRepository.deleteTask(int id)
+        async Task<ActionResult<task.manager.data.Models.Task>> ITaskRepository.deleteTask(int id)
         {
-            var task = _dbContext.Tasks.Find(id);
-            if (task != null) _dbContext.Tasks.Remove(task);
+            var task = await _dbContext.Tasks.FindAsync(id);
+            if (task != null)
+            {
+                if (task.Active == true)
+                {
+                    task.Active = false;
+                    //_dbContext.Managers.Remove(manager);
+                    _dbContext.Entry(task).State = EntityState.Modified;
+                    save();
+                    return task;
+                }
+            }
+
+            return null;
         }
 
-        task.manager.data.Models.Task ITaskRepository.GetTaskById(int id)
+        async Task<ActionResult<task.manager.data.Models.Task>> ITaskRepository.GetTaskById(int id)
         {
-            return _dbContext.Tasks.Find(id);
+            var task = await _dbContext.Tasks.FindAsync(id);
+            if (task != null)
+            {
+                if (task.Active == true)
+                {
+                    return task;
+                }
+            }
+            return null;
         }
 
-        IEnumerable<task.manager.data.Models.Task> ITaskRepository.getTasks()
+        async Task<ActionResult<IEnumerable<task.manager.data.Models.Task>>> ITaskRepository.getTasks()
         {
-            return _dbContext.Tasks.ToList();
+            return await _dbContext.Tasks.ToListAsync(); ;
         }
 
         void ITaskRepository.save()
@@ -57,9 +79,27 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void ITaskRepository.updateTask(task.manager.data.Models.Task task)
+        async Task<ActionResult<task.manager.data.Models.Task>> ITaskRepository.updateTask(task.manager.data.Models.Task task)
         {
-            _dbContext.Entry(task).State = EntityState.Modified;
+            try
+            {
+                _dbContext.Entry(task).State = EntityState.Modified;
+                save();
+                if (task != null)
+                {
+                    if (task.Active == true)
+                    {
+                        return task;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+           
         }
         protected virtual void Dispose(bool disposing)
         {

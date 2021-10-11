@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using Task.manager.Data.Interfaces;
 
 namespace Task.manager.Data.Repository
 {
-    public class WorkerRepository : IWorkeRepository
+    public class WorkerRepository : IWorkerRepository
     {
 
         private readonly DatabaseContext _dbContext;
@@ -25,10 +26,20 @@ namespace Task.manager.Data.Repository
         {
             _dbContext = context;
         }
-        void IWorkeRepository.createTask(Worker worker)
+        async Task<ActionResult<Worker>> IWorkerRepository.createWorker(Worker worker)
         {
-            _dbContext.Workers.Add(worker);
-            save();
+            try
+            {
+                await _dbContext.Workers.AddAsync(worker);
+
+                save();
+                return worker;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
         }
 
         private void save()
@@ -37,30 +48,67 @@ namespace Task.manager.Data.Repository
         }
 
 
-        void IWorkeRepository.deleteTask(int id)
+        async Task<ActionResult<Worker>> IWorkerRepository.deleteWorker(int id)
         {
-            var manager = _dbContext.Managers.Find(id);
-            if (manager != null) _dbContext.Managers.Remove(manager);
+            var task = await _dbContext.Workers.FindAsync(id);
+            if (task != null)
+            {
+                if (task.Active == true)
+                {
+                    task.Active = false;
+                    //_dbContext.Managers.Remove(manager);
+                    _dbContext.Entry(task).State = EntityState.Modified;
+                    save();
+                    return task;
+                }
+            }
+
+            return null;
         }
 
-        Worker IWorkeRepository.GetWorkerById(int id)
+        async Task<ActionResult<Worker>> IWorkerRepository.GetWorkerById(int id)
         {
-            return _dbContext.Workers.Find(id);
+            var manager = await _dbContext.Workers.FindAsync(id);
+            if (manager != null)
+            {
+                if (manager.Active == true)
+                {
+                    return manager;
+                }
+            }
+            return null;
         }
 
-        IEnumerable<Worker> IWorkeRepository.getWorkers()
+        async Task<ActionResult<IEnumerable<Worker>>> IWorkerRepository.getWorkers()
         {
-            return _dbContext.Workers.ToList();
+            return _dbContext.Workers.ToListAsync().Result.Where(x=> x.Active == true).ToList();
         }
 
-        void IWorkeRepository.save()
+        void IWorkerRepository.save()
         {
             _dbContext.SaveChanges();
         }
 
-        void IWorkeRepository.updateTask(Worker worker)
+        async Task<ActionResult<Worker>> IWorkerRepository.updateWorker(Worker worker)
         {
-            _dbContext.Entry(worker).State = EntityState.Modified;
+            try
+            {
+                _dbContext.Entry(worker).State = EntityState.Modified;
+                save();
+                if (worker != null)
+                {
+                    if (worker.Active == true)
+                    {
+                        return worker;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -78,6 +126,11 @@ namespace Task.manager.Data.Repository
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public bool Exist(int id)
+        {
+            return _dbContext.Workers.Any(e => e.Id == id);
         }
     }
 }

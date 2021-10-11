@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using task.manager.data.Models;
+using Task.manager.Data.Interfaces;
 using Task.Project.Data.Interfaces;
 
 namespace task.project.api.Controllers
@@ -15,10 +16,12 @@ namespace task.project.api.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IManagerRepository _managerRepository;
 
-        public ProjectsController(IProjectRepository context)
+        public ProjectsController(IProjectRepository projectRepository, IManagerRepository managerRepository)
         {
-            _projectRepository = context;
+            _projectRepository = projectRepository;
+            _managerRepository = managerRepository;
         }
 
         // GET: api/Projects
@@ -52,8 +55,15 @@ namespace task.project.api.Controllers
                 return BadRequest();
             }
 
-            try
-            {
+            var manager = _managerRepository.getManagerById(project.Id);
+
+            if (manager == null) {
+                return BadRequest("The selected Manager does not exist");
+            }
+
+            try { 
+            
+              
                 await _projectRepository.updateProject(project);
                 return Ok(project);
             }
@@ -80,8 +90,8 @@ namespace task.project.api.Controllers
         {
             try
             {
-                
-                var manager = GetProject(project.ManagerId);
+
+                var manager = _managerRepository.getManagerById(project.Id);
                 if (manager != null)
                 {
                     await _projectRepository.createProject(project);

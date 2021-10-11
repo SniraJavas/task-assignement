@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Task.manager.Data.Interfaces
 {
     public interface ITaskRepository
     {
-        IEnumerable<task.manager.data.Models.Task> getTasks();
-        task.manager.data.Models.Task GetTaskById(int id);
-        void createTask(task.manager.data.Models.Task task);
-        void updateTask(task.manager.data.Models.Task task);
-        void deleteTask(int id);
+        Task<ActionResult<IEnumerable<task.manager.data.Models.Task>>> getTasks();
+        Task<ActionResult<task.manager.data.Models.Task>> GetTaskById(int id);
+        Task<ActionResult<task.manager.data.Models.Task>> createTask(task.manager.data.Models.Task task);
+        Task<ActionResult<task.manager.data.Models.Task>> updateTask(task.manager.data.Models.Task task);
+        Task<ActionResult<task.manager.data.Models.Task>> deleteTask(int id);
         void save();
     }
 }

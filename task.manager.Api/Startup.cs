@@ -38,6 +38,8 @@ namespace taskManager
             services.AddScoped<IManagerRepository, ManagerRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IWorkerRepository, WorkerRepository>();
 
             services.AddSwaggerGen(c =>
             {

@@ -52,7 +52,7 @@ namespace Task.manager.Data.Repository
 
         async Task<ActionResult<IEnumerable<task.manager.data.Models.Project>>> IProjectRepository.getProjects()
         {
-            return await _dbContext.Projects.ToListAsync();
+            return _dbContext.Projects.ToListAsync().Result.Where(x => x.Active == true).ToList();
         }
 
         async Task<ActionResult<task.manager.data.Models.Project>> IProjectRepository.getProjectrById(int id)

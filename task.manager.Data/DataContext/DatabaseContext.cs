@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -12,9 +13,12 @@ namespace task.manager.data.Models
         {
         }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+        private IConfiguration configuration;
+
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, IConfiguration _configuration)
             : base(options)
         {
+            configuration = _configuration;
         }
 
         public virtual DbSet<Manager> Managers { get; set; }
@@ -25,10 +29,16 @@ namespace task.manager.data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var builder = new ConfigurationBuilder()
+            .AddJsonFile($"appsettings.json", true, true);
+
+            var config = builder.Build();
+            var connectionString = config["connectionString"];
+          
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;Database=Task_Manager-Dev;Trusted_Connection=True;");
+
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 

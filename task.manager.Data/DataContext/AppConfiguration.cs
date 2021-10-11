@@ -21,6 +21,7 @@ namespace task.manager.data.DataContext
             var appSetting = root.GetSection("ConnectionStrings: DefaultConnection");
 
             sqlConnectionString = appSetting.Value;
+            Console.WriteLine("connection str ", sqlConnectionString);
         }
        
     }

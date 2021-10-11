@@ -1,34 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Status.manager.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Task.manager.Data.Models;
+using task.manager.data.Models;
 
 namespace Task.manager.Data.Repository
 {
-    class StatusRepository : IStatusRepository
+    public class StatusRepository : IStatusRepository
     {
 
-        private readonly TaskManagerContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         private bool _disposed = false;
 
         public StatusRepository()
         {
-            _dbContext = new TaskManagerContext();
+            _dbContext = new DatabaseContext();
         }
 
-        public StatusRepository(TaskManagerContext context)
+        public StatusRepository(DatabaseContext context)
         {
             _dbContext = context;
         }
-        void IStatusRepository.createStatus(Models.Status status)
+        async Task<ActionResult<task.manager.data.Models.Status>> IStatusRepository.createStatus(task.manager.data.Models.Status status)
         {
-            _dbContext.Statuses.Add(status);
-            save();
+            try
+            {
+                await _dbContext.Statuses.AddAsync(status);
+
+                save();
+                return status;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
         }
 
         private void save()
@@ -37,20 +48,40 @@ namespace Task.manager.Data.Repository
         }
 
 
-        void IStatusRepository.deleteStatus(int id)
+        async Task<ActionResult<task.manager.data.Models.Status>> IStatusRepository.deleteStatus(int id)
         {
-            var manager = _dbContext.Managers.Find(id);
-            if (manager != null) _dbContext.Managers.Remove(manager);
+            try
+            {
+                var status = await _dbContext.Statuses.FindAsync(id);
+                if (status != null)
+                {
+
+                    _dbContext.Statuses.Remove(status);
+
+                    save();
+                    return status;
+
+                }
+
+                return null;
+            }
+            catch (Exception ex) {
+                Console.WriteLine(" error : ", ex.Message);
+                return null;
+            }
         }
 
-        Models.Status IStatusRepository.GetStatusById(int id)
+        async Task<ActionResult<task.manager.data.Models.Status>> IStatusRepository.GetStatusById(int id)
         {
-            return _dbContext.Statuses.Find(id);
+            var status = await _dbContext.Statuses.FindAsync(id);
+
+            return status;
+
         }
 
-        IEnumerable<Models.Status> IStatusRepository.getStatuses()
+        async Task<ActionResult<IEnumerable<task.manager.data.Models.Status>>> IStatusRepository.getStatuses()
         {
-            return _dbContext.Statuses.ToList();
+            return await _dbContext.Statuses.ToListAsync();
         }
 
         void IStatusRepository.save()
@@ -58,26 +89,41 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void IStatusRepository.updateStatus(Models.Status status)
+        void  IStatusRepository.updateStatus(task.manager.data.Models.Status status)
         {
-            _dbContext.Entry(status).State = EntityState.Modified;
+            try {
+                _dbContext.Entry(status).State = EntityState.Modified;
+                save();
+              
+            }
+            catch (Exception ex) {
+                Console.WriteLine(" error : ", ex.Message);
+               
+            }
+           
         }
 
-        protected virtual void Dispose(bool disposing)
+        bool IStatusRepository.Exist(int id)
         {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _dbContext.Dispose();
-                }
-            }
-            this._disposed = true;
+            return _dbContext.Statuses.Any(e => e.Id == id);
+
         }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!this._disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            _dbContext.Dispose();
+        //        }
+        //    }
+        //    this._disposed = true;
+        //}
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }

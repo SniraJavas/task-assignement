@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using task.manager.data.Models;
 namespace Task.manager.Data.Interfaces
 {
     public interface ITaskRepository
     {
-        IEnumerable<Task.manager.Data.Models.Task> getTasks();
-        Task.manager.Data.Models.Task GetTaskById(int id);
-        void createTask(Task.manager.Data.Models.Task task);
-        void updateTask(Task.manager.Data.Models.Task task);
-        void deleteTask(int id);
+        Task<ActionResult<IEnumerable<task.manager.data.Models.Task>>> getTasks();
+        Task<ActionResult<task.manager.data.Models.Task>> GetTaskById(int id);
+        Task<ActionResult<task.manager.data.Models.Task>> createTask(task.manager.data.Models.Task task);
+        Task<ActionResult<task.manager.data.Models.Task>> updateTask(task.manager.data.Models.Task task);
+        Task<ActionResult<task.manager.data.Models.Task>> deleteTask(int id);
         void save();
     }
 }

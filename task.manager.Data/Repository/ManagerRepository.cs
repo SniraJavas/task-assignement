@@ -1,56 +1,83 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using task.manager.data.Models;
 using Task.manager.Data.Interfaces;
-using Task.manager.Data.Models;
 
 namespace Task.manager.Data.Repository
 {
     public class ManagerRepository : IManagerRepository
     {
-        private readonly TaskManagerContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         private bool _disposed = false;
 
         public ManagerRepository()
         {
-            _dbContext = new TaskManagerContext();
+            _dbContext = new DatabaseContext();
         }
 
-        public ManagerRepository(TaskManagerContext context)
+        public ManagerRepository(DatabaseContext context)
         {
             _dbContext = context;
         }
 
-        Manager IManagerRepository.createManager(Manager manager)
+        async Task<ActionResult<Manager>> IManagerRepository.createManager(Manager manager)
         {
-            _dbContext.Managers.Add(manager);
-            save();
-            return manager;
+            try
+            {
+                await _dbContext.Managers.AddAsync(manager);
+
+                save();
+                return manager;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+
         }
 
         private void save()
         {
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
         }
 
-        void IManagerRepository.deleteManager(int id)
+        async Task<ActionResult<Manager>> IManagerRepository.deleteManager(int id)
         {
-            var manager = _dbContext.Managers.Find(id);
-            if (manager != null) _dbContext.Managers.Remove(manager);
+            var manager = await _dbContext.Managers.FindAsync(id);
+            if (manager != null)
+            {
+                if (manager.Active == true)
+                {
+                    manager.Active = false;
+                    //_dbContext.Managers.Remove(manager);
+                    _dbContext.Entry(manager).State = EntityState.Modified;
+                    save();
+                    return manager;
+                }
+            }
+
+            return null;
+
         }
 
-        Manager IManagerRepository.getManagerById(int id)
+        async Task<ActionResult<Manager>> IManagerRepository.getManagerById(int id)
         {
-            return _dbContext.Managers.Find(id);
-        }
-
-        IEnumerable<Manager> IManagerRepository.getManagers()
-        {
-            return _dbContext.Managers.ToList();
+            var manager = await _dbContext.Managers.FindAsync(id);
+            if (manager != null)
+            {
+                if (manager.Active == true)
+                {
+                    return manager;
+                }
+            }
+            return null;
         }
 
         void IManagerRepository.save()
@@ -58,32 +85,56 @@ namespace Task.manager.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        void IManagerRepository.updateManager(Manager manager)
+        async Task<ActionResult<Manager>> IManagerRepository.updateManager(Manager manager)
         {
-            _dbContext.Entry(manager).State = EntityState.Modified;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
+            try
             {
-                if (disposing)
+                _dbContext.Entry(manager).State = EntityState.Modified;
+                save();
+                if (manager != null)
                 {
-                    _dbContext.Dispose();
+                    if (manager.Active == true)
+                    {
+                        return manager;
+                    }
                 }
+                return null;
             }
-            this._disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            catch (Exception ex)
+            {
+                Console.WriteLine("error : {0} ", ex.Message);
+                return null;
+            }
+
         }
 
-        public bool Exist(int id)
-        {
-            return _dbContext.Managers.Find(id) != null;
 
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!this._disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            _dbContext.Dispose();
+        //        }
+        //    }
+        //    this._disposed = true;
+        //}
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+
+        async Task<ActionResult<IEnumerable<Manager>>> IManagerRepository.getManagers()
+        {
+            return _dbContext.Managers.ToListAsync().Result.Where(x => x.Active == true).ToList(); ;
+        }
+
+        bool IManagerRepository.Exist(int id)
+        {
+            return _dbContext.Managers.Any(e => e.Id == id);
         }
     }
 }

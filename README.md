@@ -60,5 +60,6 @@ o How to run the application
 	
  **If you have more time, what would you do differently? Also, what would you have 
 added additionally?**
+
 	o If I had to get another chance I would have used EF Core inMemory straight up
 	o I should have used TDD approach so it would guide me to reach my requirements at a paced rate and assist me from encoutering destruction and end up adding unneccessary features and to produce more quality code.

@@ -57,7 +57,8 @@ o How to run the application
 	o Throuugh MVC its took me about a hour to complete the assessment and that was my expectation, MVC is less complicated that 3 tier but its prioritises on client layer(View/Front-End) here is the repo : https://github.com/SniraJavas/WeBelieveIT.Task.Tracker
 	o 3 tier took me about 4 hours as there have been breaks and laptop issues, The laptop that I have been using have battery problem so it would switch off anytime due to electricity maintanance that have been taking place and other responsibilities that required my attention.
 	o Building Unit test took me +-30 minutes on top of that 4 hours, The delay here came from my approach that I chose to use actuall database and installing and configuring came with other issues. 
-o If you have more time, what would you do differently? Also, what would you have 
-added additionally?
+	
+ **If you have more time, what would you do differently? Also, what would you have 
+added additionally?**
 	o If I had to get another chance I would have used EF Core inMemory straight up
 	o I should have used TDD approach so it would guide me to reach my requirements at a paced rate and assist me from encoutering destruction and end up adding unneccessary features and to produce more quality code.

@@ -1,7 +1,6 @@
 # WeBelieveIT
 Assessment about creation, assigning and tracking of task progresss and ownership.
 
-Pa$$w0rd@D02021
 # WeBelieveIT
 Assessment about creation, assigning and tracking of task progresss and ownership.
 

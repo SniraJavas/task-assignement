@@ -66,7 +66,7 @@ namespace Task.manager.Data.Repository
             return null;
         }
 
-        async Task<ActionResult<Worker>> IWorkerRepository.GetWorkerById(int id)
+        async Task<ActionResult<Worker>> IWorkerRepository.getWorkerById(int id)
         {
             var manager = await _dbContext.Workers.FindAsync(id);
             if (manager != null)

@@ -32,7 +32,7 @@ namespace task.manager.api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Worker>> GetWorker(int id)
         {
-            var worker = await _workeRepository.GetWorkerById(id);
+            var worker = await _workeRepository.getWorkerById(id);
 
             if (worker == null)
             {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YPz9h3grW1vxxrrwt992IxR7vThgXISC4EU5VyCs1DX2bHW0CCUEoX/ZNYJgHyLhTjmFCdSfBGU96AJ6CBY49g==",
+  "dgSpecHash": "zbTY6L+oZfc6tuYlP2gqD9fI5CGNq4zGIDg9qAPB/SSDwekEXWMQgg+76rzHTdR17/+G0b3uUNhmrhm6hmUoKQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\sinikiwe.jumba\\Downloads\\WeBelieveIT\\TaskManager\\task.manager.Data\\task.manager.data.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.10\\microsoft.entityframeworkcore.abstractions.5.0.10.nupkg.sha512",
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.10\\microsoft.entityframeworkcore.analyzers.5.0.10.nupkg.sha512",
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.design\\5.0.10\\microsoft.entityframeworkcore.design.5.0.10.nupkg.sha512",
+    "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\5.0.10\\microsoft.entityframeworkcore.inmemory.5.0.10.nupkg.sha512",
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.10\\microsoft.entityframeworkcore.relational.5.0.10.nupkg.sha512",
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\5.0.10\\microsoft.entityframeworkcore.sqlserver.5.0.10.nupkg.sha512",
     "C:\\Users\\sinikiwe.jumba\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\5.0.10\\microsoft.entityframeworkcore.tools.5.0.10.nupkg.sha512",

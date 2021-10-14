@@ -24,7 +24,9 @@ namespace task.manager.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manager>>> GetManagers()
         {
-            return await _managerRepository.getManagers();
+            var managers = await _managerRepository.getManagers();
+            var what = managers.Value;
+            return managers;
         }
 
         // GET: api/Managers/5

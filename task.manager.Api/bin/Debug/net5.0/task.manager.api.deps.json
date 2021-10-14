@@ -34,6 +34,7 @@
       "task.manager.api/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "5.0.10",
+          "Microsoft.EntityFrameworkCore.InMemory": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.10",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
@@ -886,6 +887,20 @@
             "assemblyVersion": "5.0.10.0",
             "fileVersion": "5.0.1021.41011"
           }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/5.0.10": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.10"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "assemblyVersion": "5.0.10.0",
+            "fileVersion": "5.0.1021.41011"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {}
         }
       },
       "Microsoft.EntityFrameworkCore.Relational/5.0.10": {
@@ -2109,6 +2124,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Microsoft.EntityFrameworkCore": "5.0.10",
+          "Microsoft.EntityFrameworkCore.InMemory": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0"
@@ -4065,6 +4081,13 @@
       "sha512": "sha512-zazeCOcEuK7vsQPEtzNC7D1zaUBWxfjyhajypISNm2n9o1SBXEgVReVrn+Edj4SBy8ofoaXRfY01YYxbDwCMQQ==",
       "path": "microsoft.entityframeworkcore.design/5.0.10",
       "hashPath": "microsoft.entityframeworkcore.design.5.0.10.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/5.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iexHF3ucf41N1he+ECHo7O8kS/DGtvW1aZB0VWBd4yH+KdFBekS0a411mTngfmfo6iO0FQkUPMiE5+U3qaldEQ==",
+      "path": "microsoft.entityframeworkcore.inmemory/5.0.10",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.5.0.10.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/5.0.10": {
       "type": "package",

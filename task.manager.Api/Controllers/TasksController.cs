@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Task.manager.Data.Interfaces;
+using Task.Project.Data.Interfaces;
 
 namespace task.manager.api.Controllers
 {
@@ -12,32 +14,36 @@ namespace task.manager.api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly data.Models.DatabaseContext _context;
+        private readonly ITaskRepository _taskRepository;
+        private readonly IManagerRepository _managerRepository;
+        private readonly IProjectRepository _projectRepossitory;
 
-        public TasksController(data.Models.DatabaseContext context)
+        public TasksController(ITaskRepository taskRepository, IManagerRepository managerRepository, IProjectRepository projectRepossitory)
         {
-            _context = context;
+            _taskRepository = taskRepository;
+            _managerRepository = managerRepository;
+            _projectRepossitory = projectRepossitory;
         }
 
         // GET: api/Tasks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<task.manager.data.Models.Task>>> GetTasks()
         {
-            return await _context.Tasks.ToListAsync();
+            return await _taskRepository.getTasks();
         }
 
         // GET: api/Tasks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<task.manager.data.Models.Task>> GetTask(int id)
         {
-            var task = await _context.Tasks.FindAsync(id);
+            var task = await _taskRepository.GetTaskById(id);
 
             if (task == null)
             {
                 return NotFound();
             }
 
-            return task;
+            return Ok(task);
         }
 
         // PUT: api/Tasks/5
@@ -50,15 +56,29 @@ namespace task.manager.api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(task).State = EntityState.Modified;
+            var projectExist = _projectRepossitory.Exist(task.ProjectId);
+            var managerExist = _managerRepository.Exist(task.ManagerId);
+
+            if (!projectExist || !managerExist)
+            {
+                return BadRequest(" Manager/Project selected do not exist. Ensure to pass existing Ids");
+            }
+
 
             try
             {
-                await _context.SaveChangesAsync();
+                var result = await _taskRepository.updateTask(task);
+                if (result != null)
+                {
+                    return Ok(task);
+                }
+                else {
+                    return BadRequest();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskExists(id))
+                if (!_taskRepository.Exist(id))
                 {
                     return NotFound();
                 }
@@ -67,8 +87,6 @@ namespace task.manager.api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Tasks
@@ -76,14 +94,29 @@ namespace task.manager.api.Controllers
         [HttpPost]
         public async Task<ActionResult<task.manager.data.Models.Task>> PostTask(task.manager.data.Models.Task task)
         {
-            _context.Tasks.Add(task);
+            
             try
             {
-                await _context.SaveChangesAsync();
+                var projectExist = _projectRepossitory.Exist(task.ProjectId);
+                var managerExist = _managerRepository.Exist(task.ManagerId);
+
+                if (!projectExist || !managerExist) {
+                    return BadRequest(" Manager/Project selected do not exist. Ensure to pass existing Ids");
+                }
+                
+                task = await _taskRepository.createTask(task);
+                if (task != null)
+                {
+                    return CreatedAtAction("GetTask", new { id = task.Id }, task);
+                }
+                else {
+                    return BadRequest();
+                }
+
             }
             catch (DbUpdateException)
             {
-                if (TaskExists(task.Id))
+                if (_taskRepository.Exist(task.Id))
                 {
                     return Conflict();
                 }
@@ -92,29 +125,19 @@ namespace task.manager.api.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtAction("GetTask", new { id = task.Id }, task);
         }
 
         // DELETE: api/Tasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var task = await _context.Tasks.FindAsync(id);
-            if (task == null)
+            var worker = await _taskRepository.deleteTask(id);
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            _context.Tasks.Remove(task);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TaskExists(int id)
-        {
-            return _context.Tasks.Any(e => e.Id == id);
+            return Ok(worker);
         }
     }
 }

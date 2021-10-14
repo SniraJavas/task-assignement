@@ -688,6 +688,18 @@
           "build/netcoreapp3.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/5.0.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.10"
+        },
+        "compile": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/5.0.10": {
         "type": "package",
         "dependencies": {
@@ -2543,6 +2555,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Microsoft.EntityFrameworkCore": "5.0.10",
+          "Microsoft.EntityFrameworkCore.InMemory": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0"
@@ -3376,6 +3389,20 @@
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Design.xml",
         "microsoft.entityframeworkcore.design.5.0.10.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/5.0.10": {
+      "sha512": "iexHF3ucf41N1he+ECHo7O8kS/DGtvW1aZB0VWBd4yH+KdFBekS0a411mTngfmfo6iO0FQkUPMiE5+U3qaldEQ==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/5.0.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.5.0.10.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/5.0.10": {
@@ -8387,6 +8414,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Microsoft.EntityFrameworkCore.Design >= 5.0.10",
+      "Microsoft.EntityFrameworkCore.InMemory >= 5.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.10",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
@@ -8444,6 +8472,10 @@
             "target": "Package",
             "version": "[5.0.10, )"
           },
+          "Microsoft.EntityFrameworkCore.InMemory": {
+            "target": "Package",
+            "version": "[5.0.10, )"
+          },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
             "version": "[5.0.10, )"
@@ -8481,7 +8513,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

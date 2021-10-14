@@ -117,5 +117,10 @@ namespace Task.manager.Data.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        bool ITaskRepository.Exist(int id)
+        {
+            return _dbContext.Tasks.Any(e => e.Id == id);
+        }
     }
 }

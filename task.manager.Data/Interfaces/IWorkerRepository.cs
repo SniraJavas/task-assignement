@@ -11,7 +11,7 @@ namespace Task.manager.Data.Interfaces
     public interface IWorkerRepository
     {
         Task<ActionResult<IEnumerable<Worker>>> getWorkers();
-        Task<ActionResult<Worker>> GetWorkerById(int id);
+        Task<ActionResult<Worker>> getWorkerById(int id);
         Task<ActionResult<Worker>> createWorker(Worker worker);
         Task<ActionResult<Worker>> updateWorker(Worker worker);
         Task<ActionResult<Worker>> deleteWorker(int id);

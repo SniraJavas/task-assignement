@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -17,6 +18,11 @@ namespace task.manager.data.Models
         public int StatusId { get; set; }
         public int ProjectId { get; set; }
         public int? MemberId { get; set; }
+
+        public static implicit operator Task(ActionResult<Task> v)
+        {
+            throw new NotImplementedException();
+        }
 
         //public virtual Manager Manager { get; set; }
         //public virtual Worker Member { get; set; }

@@ -15,5 +15,6 @@ namespace Task.manager.Data.Interfaces
         Task<ActionResult<task.manager.data.Models.Task>> updateTask(task.manager.data.Models.Task task);
         Task<ActionResult<task.manager.data.Models.Task>> deleteTask(int id);
         void save();
+        bool Exist(int id);
     }
 }

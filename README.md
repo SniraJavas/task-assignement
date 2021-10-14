@@ -1,5 +1,3 @@
-# WeBelieveIT
-Assessment about creation, assigning and tracking of task progresss and ownership.
 
 # WeBelieveIT
 Assessment about creation, assigning and tracking of task progresss and ownership.
@@ -8,8 +6,9 @@ I hope you will enjoy reviewing my work, I have developed the Web api usingEntit
 
 I have decided use the 3 tier architecture as our priority was the back-end and this architecture gives us all the flexibility to test our code as it breaks units into different layers Business-Logic and Data-Layer.
 
-o How to run the application
-  -  
+**How to run the application**
+  o I was using the actual Database to test the APi but how ever I have added a test data on At startup.cs and configure it to work as a default unless code have been commentedd out
+  o In short you will have to just install all the required packages to run the Api and ensure its builds successfully before you press F5 on visual studio, it will work using te default data in EF CORE inMemory
 
 
  **Reason for specific designs and interfaces**
@@ -40,8 +39,11 @@ o How to run the application
 	
 	o In creating asp.net Api, I was expecting target framework to be written like .Net Core 5 but I have learnt that "Core" have been removed to indicate that now onwards .Net will support but .Net Framework and .Net Core hence "Framework" and "Core" will be removed all together in future 
 	
+	o I struggled with iitialising the context so I could be able to use xUnit in correctly tsting my APi, fr now my xUnit tests are not working but I will be looking at them as it bothers me.
+	
 
 **List resources used and relevant references**
+
 	o Unit Test controller https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-5.0
 	
 	o Fixing the error “A possible object cycle was detected” in different versions of ASP.NET Core - https://gavilan.blog/2021/05/19/fixing-the-error-a-possible-object-cycle-was-detected-in-different-versions-of-asp-net-core/

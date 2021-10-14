@@ -1,5 +1,8 @@
 ﻿
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Status.manager.Data.Interfaces;
 using System;
@@ -8,12 +11,11 @@ using Task.manager.Data.Interfaces;
 using Task.manager.Data.Repository;
 using Xunit;
 
-namespace task.status.tests
+namespace task.manager.tests
 {
     public class StatusControllerTests
     {
         private readonly IStatusRepository _statusRepository;
-
         public StatusControllerTests(IStatusRepository statusRepository)
         {
             _statusRepository = statusRepository;

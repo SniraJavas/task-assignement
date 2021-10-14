@@ -7,7 +7,7 @@ using Task.manager.Data.Repository;
 using Task.Project.Data.Interfaces;
 using Xunit;
 
-namespace task.project.tests
+namespace task.manager.tests
 {
     public class ProjectsControllerTests
     {

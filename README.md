@@ -39,7 +39,7 @@ I have decided use the 3 tier architecture as our priority was the back-end and 
 	
 	o In creating asp.net Api, I was expecting target framework to be written like .Net Core 5 but I have learnt that "Core" have been removed to indicate that now onwards .Net will support but .Net Framework and .Net Core hence "Framework" and "Core" will be removed all together in future 
 	
-	o I struggled with iitialising the context so I could be able to use xUnit in correctly tsting my APi, fr now my xUnit tests are not working but I will be looking at them as it bothers me.
+	o I struggled with iitialising the context so I could be able to use xUnit in correctly tsting my APi, fr now my xUnit tests are not working but I will be looking at them as it bothers me. But i Have tested it using Swagger and all Api are working but it was was just configuring the right context to use in xUnit test that is bothering me.
 	
 
 **List resources used and relevant references**
